@@ -332,7 +332,7 @@ namespace CollabClient
                     continue;
                 }
                 this.setFamilyidAndTwinAsPrimaryKey(t);
-                outputTable.Merge(t, true, MissingSchemaAction.AddWithKey);
+                outputTable.Merge(t, false, MissingSchemaAction.AddWithKey);
             }
             return outputTable != null ? outputTable.Copy() : null;
         }
@@ -348,10 +348,9 @@ namespace CollabClient
                     this.setFamilyidAsPrimaryKey(outputTable);
                     continue;
                 }
-                this.setFamilyidAndTwinAsPrimaryKey(t);
-                outputTable.Merge(t, true, MissingSchemaAction.AddWithKey);
+                this.setFamilyidAsPrimaryKey(t);
+                outputTable.Merge(t, false, MissingSchemaAction.AddWithKey);
             }
-
             return outputTable != null ? outputTable.Copy() : null;
         }
 

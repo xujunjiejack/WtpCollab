@@ -38,6 +38,8 @@ namespace CollabClient
         private SQLiteConnection _sqliteConn;
         private OdbcConnection _odbcConn;
         private const String SQLITE_DB_LOCATION = "O:/wtp_collab.db";
+        private const String SQLITE_DB_TEST_LOCATION = "C:/Users/jxu259/Desktop/sqlite/wtp_collab_test_use_this.db";
+
 
         // Just be careful, it's not safe to open odbc here, because we are exposing our password and id here
         private const String MYSQL_DB_DSN = "wtp_data";
@@ -56,6 +58,7 @@ namespace CollabClient
         public ConnectionCoordinater()
         {
             _sqliteConn = new SQLiteConnection(String.Format("Data source = {0}", SQLITE_DB_LOCATION));
+            //_sqliteConn = new SQLiteConnection(String.Format("Data source = {0}", SQLITE_DB_TEST_LOCATION));
             _odbcConn = new OdbcConnection(String.Format("DSN={0};UID={1};PWD={2}", MYSQL_DB_DSN, MYSQL_DB_UID, MYSQL_DB_PWD)); 
         }
 

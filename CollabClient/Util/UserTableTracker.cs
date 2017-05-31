@@ -88,7 +88,5 @@ namespace CollabClient
             SQLiteCommand cmd = cmdBuilder.GetUpdateCommand();
             dataadapter.Update(ds, TRACKER_TABLE_NAME);
         }
-
-        
     }
 }
