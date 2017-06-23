@@ -65,7 +65,7 @@ namespace CollabClient
 
         private String getColFieldType(Type dataType)
         {
-            if (dataType.Equals(typeof(System.Int32)))
+            if (dataType.Equals(typeof(System.Int32)) || dataType.Equals(typeof(System.Byte)))
             {
                 return "int(10)";
             }
@@ -123,7 +123,7 @@ namespace CollabClient
                 return String.Format(_stringEnclosing+ "{0}" + _stringEnclosing, row[col.ColumnName]);
             }
 
-            if (col.DataType.Equals(typeof(Int32)) || col.DataType.Equals(typeof(double)))
+            if (col.DataType.Equals(typeof(Int32)) || col.DataType.Equals(typeof(double)) || col.DataType.Equals(typeof(System.Byte)))
             {
                 return row[col.ColumnName].ToString();
             }

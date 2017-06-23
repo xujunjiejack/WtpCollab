@@ -29,7 +29,7 @@ namespace CollabClient
         /// FamilyTable only has the column of "familyid", suggesting caregiver or the whole family is the center of the measurement
         /// GeneralTable is the table that doesn't have "familyid"
         /// </summary>
-        public enum TableType { TwinTable, FamilyTable, GeneralTable }
+        public enum TableType { TwinTable, FamilyTable, TwinDataTable, FamilyDataTable, GeneralTable }
         private bool _doUseFullFields;
 
         public Table()
@@ -86,7 +86,13 @@ namespace CollabClient
             if (_availableColumns == null)
             {
                 _availableColumns = getAllCols(_sqliteConn);
-                if (_availableColumns.Contains<String>("twin") && _availableColumns.Contains<String>("familyid"))
+
+                List<String> TwinDataTableField = new List<string>() { "familyid", "twin", "datamode"};
+                List<String> FamilyDataTableField = new List<string>() { "familyid", "datamode" };
+
+                if (TwinDataTableField.All(_availableColumns.Contains)) this.Type = TableType.TwinDataTable;
+                else if (FamilyDataTableField.All(_availableColumns.Contains)) this.Type = TableType.FamilyDataTable;
+                else if (_availableColumns.Contains<String>("twin") && _availableColumns.Contains<String>("familyid"))
                 {
                     this.Type = TableType.TwinTable;
                 }
@@ -119,6 +125,22 @@ namespace CollabClient
                     list.Add("twin");
                     _availableColumns.Remove("twin");
                     break;
+                case TableType.TwinDataTable:
+                    list.Add("familyid");
+                    _availableColumns.Remove("familyid");
+                    list.Add("twin");
+                    _availableColumns.Remove("twin");
+                    list.Add("datamode");
+                    _availableColumns.Remove("datamode");
+                    break;
+
+                case TableType.FamilyDataTable:
+                    list.Add("familyid");
+                    _availableColumns.Remove("familyid");
+                    list.Add("datamode");
+                    _availableColumns.Remove("datamode");
+                    break;
+
                 default:
                     break;
             }
@@ -132,8 +154,14 @@ namespace CollabClient
                 if (_availableColumns == null)
                 {   
                     _availableColumns = getAllCols(_sqliteConn);
+
+                    List<String> TwinDataTableField = new List<string>() { "familyid", "twin", "datamode" };
+                    List<String> FamilyDataTableField = new List<string>() { "familyid", "datamode" };
+
+                    if (TwinDataTableField.All(_availableColumns.Contains)) this.Type = TableType.TwinDataTable;
+                    else if (FamilyDataTableField.All(_availableColumns.Contains)) this.Type = TableType.FamilyDataTable;
                     // Decide whether the table is family table or not
-                    if (_availableColumns.Contains<String>("twin") && _availableColumns.Contains<String>("familyid"))
+                    else if (_availableColumns.Contains<String>("twin") && _availableColumns.Contains<String>("familyid"))
                     {
                         this.Type = TableType.TwinTable;
                     }

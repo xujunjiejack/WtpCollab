@@ -111,9 +111,11 @@ namespace CollabClient
             {
                 switch (t.Type){
                     case Table.TableType.FamilyTable:
+                    case Table.TableType.FamilyDataTable:
                         familyTables.Add(getTable(t));
                         break;
 
+                    case Table.TableType.TwinDataTable:
                     case Table.TableType.TwinTable:
                         twinTables.Add(getTable(t));
                         break;
@@ -234,8 +236,17 @@ namespace CollabClient
             return _workingDataSet.Tables[table.TableName];
         }
 
+
+        // I will Use a different select sql for Data table that has datamode
         private String getSelectSql(Table dataTable)
         {
+            if (dataTable.Type == Table.TableType.FamilyDataTable || dataTable.Type == Table.TableType.TwinDataTable)
+            {
+                if (dataTable.DoUseFullFields)
+                    return String.Format("SELECT * FROM {0} WHERE datamode = {1}", dataTable.TableName, "'Entry'");
+
+                return getSelectSqlForSpecificFieldsWithDatamode(dataTable.UserSpecifiedFields, dataTable.TableName);
+            }
 
             if (dataTable.DoUseFullFields)
                 return String.Format("SELECT * FROM {0}", dataTable.TableName);
@@ -244,6 +255,11 @@ namespace CollabClient
             return getSelectSqlForSpecificFields(dataTable.UserSpecifiedFields, dataTable.TableName);
 
             //return String.Format("SELECT * FROM {0}", dataTable.TableName);
+        }
+
+        private String getSelectSqlForSpecificFieldsWithDatamode(ObservableCollection<String> fields, String tableName)
+        {
+            return String.Format("SELECT {0} FROM {1} WHERE datamode = {2};", String.Join(", ", fields.ToArray()), tableName, "'Entry'");
         }
 
         private String getSelectSqlForSpecificFields(ObservableCollection<String> fields, String tableName)

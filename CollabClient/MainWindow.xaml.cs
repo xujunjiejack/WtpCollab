@@ -127,10 +127,12 @@ namespace CollabClient
             }
 
             String finalUserTableName;
+
             try
             {
                 finalUserTableName =_mc.run(_userTableName, _userTables);
             }
+           // catch (FileFormatException ex)
             catch (ArgumentException ex)
             {
                 MessageBox.Show(ex.Message);
