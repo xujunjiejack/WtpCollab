@@ -185,6 +185,12 @@ namespace CollabClient
                 return outputDataTable;
             }
 
+            if (outputDataTable.Columns.Contains(column))
+            {
+                MessageBox.Show($"{column} already exists in the final table. It will not be appended.");
+                return outputDataTable;
+            }
+
             _adapter.SelectCommand.CommandText = String.Format($"Select * from {sourceTableName}");
             if (!_workingDataSet.Tables.Contains(sourceTableName))
                 _adapter.Fill(_workingDataSet, sourceTableName);
