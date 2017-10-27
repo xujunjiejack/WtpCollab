@@ -123,7 +123,8 @@ namespace CollabClient
                 return String.Format(_stringEnclosing+ "{0}" + _stringEnclosing, row[col.ColumnName]);
             }
 
-            if (col.DataType.Equals(typeof(Int32)) || col.DataType.Equals(typeof(double)) || col.DataType.Equals(typeof(System.Byte)))
+            if (col.DataType.Equals(typeof(Int32)) || col.DataType.Equals(typeof(double)) || col.DataType.Equals(typeof(System.Byte))
+                || col.DataType.Equals(typeof(System.Int64)))
             {
                 return row[col.ColumnName].ToString();
             }
