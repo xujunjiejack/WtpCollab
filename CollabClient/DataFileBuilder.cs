@@ -9,6 +9,7 @@ using CsvHelper;
 using System.IO;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace CollabClient
 {
@@ -166,6 +167,7 @@ namespace CollabClient
         }
         private DataTable appendColumns(DataTable outputDataTable)
         {
+            
             if (_viewModel.AppendGender)
                 outputDataTable = appendSpecificColumn(outputDataTable, "gender", "gen_twins", new String[]{ "familyid", "twin"});
             if (_viewModel.AppendRdSelect)
@@ -176,7 +178,13 @@ namespace CollabClient
         }
 
         private DataTable appendSpecificColumn(DataTable outputDataTable, string column, String sourceTableName, String[] join_keys)
-        {
+        {   
+            if (!join_keys.All(x=> outputDataTable.Columns.Contains(x)))
+            {
+                MessageBox.Show($"{String.Join(",",join_keys)} is not in the final table, {column} will not be appended ");
+                return outputDataTable;
+            }
+
             _adapter.SelectCommand.CommandText = String.Format($"Select * from {sourceTableName}");
             if (!_workingDataSet.Tables.Contains(sourceTableName))
                 _adapter.Fill(_workingDataSet, sourceTableName);
