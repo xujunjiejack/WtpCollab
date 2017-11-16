@@ -47,7 +47,7 @@ namespace CollabClient
         // Just be careful, it's not safe to open odbc here, because we are exposing our password and id here
         private const String MYSQL_DB_DSN = "wtp_data";
         private const String MYSQL_DB_UID = "wtpadmin";
-        private const String MYSQL_DB_PWD = "Mh&g@1U";
+        private const String MYSQL_DB_PWD = "1111111";
 
         private static readonly ConnectionCoordinater singleton = new ConnectionCoordinater();
         public static ConnectionCoordinater SharedConnectionCoordinator
